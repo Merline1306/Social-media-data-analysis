@@ -1,0 +1,189 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import random
+#Step 2 : Dataset generation
+
+categories = ['Health', 'Family', 'Food', 'Travel',
+              'Fitness', 'Technology', 'Education']
+
+n = 1000
+
+data = {
+    'Date': pd.date_range(start='2025-01-01', periods=n),
+    'Category': [random.choice(categories) for _ in range(n)],
+    'Likes': np.random.randint(100, 10000, size=n)
+}
+
+df = pd.DataFrame(data)
+
+print(df)
+#Step 3 : Dataset exploration
+
+print(df.info())
+
+print(df.describe())
+
+print(df['Category'].value_counts())
+#Step 4: Data cleaning
+#1. handle missing values
+df['Likes'] = df['Likes'].fillna(df['Likes'].mean())
+
+print(df.isnull().sum())
+
+#2. remove duplicates
+print("Duplicate rows:", df.duplicated().sum())
+
+df = df.drop_duplicates()
+
+print("Duplicate rows after cleaning:", df.duplicated().sum())
+
+#3. Fix Data Types & Formats
+print(df.dtypes)
+
+df['Date'] = pd.to_datetime(df['Date'])
+
+df['Likes'] = pd.to_numeric(df['Likes'])
+
+print(df.dtypes)
+
+
+#4. remove outliers 
+Q1 = df['Likes'].quantile(0.25)
+Q3 = df['Likes'].quantile(0.75)
+
+IQR = Q3 - Q1
+
+lower = Q1 - 1.5 * IQR
+upper = Q3 + 1.5 * IQR
+
+print("Lower Limit:", lower)
+print("Upper Limit:", upper)
+df = df[(df['Likes'] >= lower) & (df['Likes'] <= upper)]
+print(df.shape)
+
+#6. Final cleaned dataset
+print(df.info())
+print(df.head())
+print(df.describe())
+avg_likes = df.groupby('Category')['Likes'].mean()
+
+print(avg_likes)
+popular = df.groupby('Category')['Likes'].sum()
+
+print(popular)
+#Step 5 : Data Visualization 
+plt.figure(figsize=(8,5))
+plt.hist(df['Likes'], bins=20)
+plt.title('Distribution of Likes')
+plt.xlabel('Likes')
+plt.ylabel('Frequency')
+plt.show()
+avg_likes = df.groupby('Category')['Likes'].mean()
+
+plt.figure(figsize=(10,5))
+avg_likes.sort_values().plot(kind='bar')
+plt.title('Average Likes by Category')
+plt.xlabel('Category')
+plt.ylabel('Average Likes')
+plt.show()
+category_counts = df['Category'].value_counts()
+
+plt.figure(figsize=(8,8))
+plt.pie(category_counts,
+        labels=category_counts.index,
+        autopct='%1.1f%%')
+plt.title('Category Distribution')
+plt.show()
+plt.figure(figsize=(12,6))
+df.boxplot(column='Likes', by='Category')
+plt.title('Likes by Category')
+plt.suptitle('')
+plt.xlabel('Category')
+plt.ylabel('Likes')
+plt.show()
+plt.figure(figsize=(12,5))
+
+plt.plot(df['Date'], df['Likes'])
+
+plt.title('Likes Over Time')
+plt.xlabel('Date')
+plt.ylabel('Likes')
+plt.show()
+avg_likes = df.groupby('Category')['Likes'].mean()
+
+avg_likes.plot(
+    kind='area',
+    figsize=(10,5)
+)
+
+plt.title('Average Likes by Category')
+plt.ylabel('Likes')
+plt.show()
+counts = df['Category'].value_counts()
+
+counts.plot(
+    kind='bar',
+    figsize=(10,5)
+)
+
+plt.title('Number of Posts per Category')
+plt.xlabel('Category')
+plt.ylabel('Count')
+plt.show()
+import seaborn as sns
+
+plt.figure(figsize=(12,6))
+
+sns.violinplot(
+    x='Category',
+    y='Likes',
+    data=df
+)
+
+plt.xticks(rotation=45)
+plt.show()
+max_likes = df.groupby('Category')['Likes'].max()
+
+max_likes.plot(
+    kind='bar',
+    figsize=(10,5)
+)
+
+plt.title('Maximum Likes by Category')
+plt.ylabel('Likes')
+plt.show()
+min_likes = df.groupby('Category')['Likes'].min()
+
+min_likes.plot(
+    kind='bar',
+    figsize=(10,5)
+)
+
+plt.title('Minimum Likes by Category')
+plt.ylabel('Likes')
+plt.show()
+total_likes = df.groupby('Category')['Likes'].sum()
+
+total_likes.plot(
+    kind='bar',
+    figsize=(10,5)
+)
+
+plt.title('Total Likes by Category')
+plt.ylabel('Total Likes')
+plt.show()
+df['Month'] = df['Date'].dt.month
+
+monthly = df.groupby('Month')['Likes'].mean()
+
+monthly.plot(
+    kind='line',
+    marker='o',
+    figsize=(10,5)
+)
+
+plt.title('Average Likes per Month')
+plt.ylabel('Likes')
+plt.show()
