@@ -1,0 +1,110 @@
+#Step 2 : Dataset generation
+          Date    Category  Likes
+0   2025-01-01  Technology    921
+1   2025-01-02  Technology   6987
+2   2025-01-03      Health   9752
+3   2025-01-04   Education   3846
+4   2025-01-05      Travel   1806
+..         ...         ...    ...
+995 2027-09-23      Travel   7725
+996 2027-09-24     Fitness   2858
+997 2027-09-25   Education   5302
+998 2027-09-26      Family   8795
+999 2027-09-27      Health   7822
+
+[1000 rows x 3 columns]
+
+#Step 3 : Dataset exploration
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 1000 entries, 0 to 999
+Data columns (total 3 columns):
+ #   Column    Non-Null Count  Dtype         
+---  ------    --------------  -----         
+ 0   Date      1000 non-null   datetime64[ns]
+ 1   Category  1000 non-null   object        
+ 2   Likes     1000 non-null   int64         
+dtypes: datetime64[ns](1), int64(1), object(1)
+memory usage: 23.6+ KB
+None
+             Likes
+count  1000.000000
+mean   5015.510000
+std    2902.624296
+min     113.000000
+25%    2533.000000
+50%    5064.500000
+75%    7528.500000
+max    9986.000000
+Family        151
+Food          146
+Fitness       145
+Travel        144
+Education     144
+Health        135
+Technology    135
+Name: Category, dtype: int64
+
+#Step 4: Data cleaning
+Date        0
+Category    0
+Likes       0
+dtype: int64
+Duplicate rows: 0
+Duplicate rows after cleaning: 0
+Date        datetime64[ns]
+Category            object
+Likes                int64
+dtype: object
+Date        datetime64[ns]
+Category            object
+Likes                int64
+dtype: object
+Lower Limit: -4960.25
+Upper Limit: 15021.75
+(1000, 3)
+<class 'pandas.core.frame.DataFrame'>
+Int64Index: 1000 entries, 0 to 999
+Data columns (total 3 columns):
+ #   Column    Non-Null Count  Dtype         
+---  ------    --------------  -----         
+ 0   Date      1000 non-null   datetime64[ns]
+ 1   Category  1000 non-null   object        
+ 2   Likes     1000 non-null   int64         
+dtypes: datetime64[ns](1), int64(1), object(1)
+memory usage: 31.2+ KB
+None
+        Date    Category  Likes
+0 2025-01-01  Technology    921
+1 2025-01-02  Technology   6987
+2 2025-01-03      Health   9752
+3 2025-01-04   Education   3846
+4 2025-01-05      Travel   1806
+             Likes
+count  1000.000000
+mean   5015.510000
+std    2902.624296
+min     113.000000
+25%    2533.000000
+50%    5064.500000
+75%    7528.500000
+max    9986.000000
+
+Category
+Education     5028.368056
+Family        5244.039735
+Fitness       5121.427586
+Food          4962.938356
+Health        5114.325926
+Technology    4694.651852
+Travel        4917.826389
+Name: Likes, dtype: float64
+
+Category
+Education     616992
+Family        696404
+Fitness       803359
+Food          775213
+Health        690969
+Technology    754922
+Travel        632472
+Name: Likes, dtype: int64
